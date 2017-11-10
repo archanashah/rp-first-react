@@ -11,7 +11,7 @@ export default function(props) {
       <h3>Search for a movie!</h3>
       <form onSubmit={clickHandler}>
         <div className="form-group">
-          <label htmlFor="movie-search">Search by Title:</label>
+          {/*<label htmlFor="movie-search">Search by Title:</label>*/}
           <input className="form-control" type="text" id="movie-search" />
         </div>
 

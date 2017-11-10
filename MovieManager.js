@@ -1,34 +1,39 @@
 import React from "react";
+
 import MovieSearch from "./MovieSearch";
 import MovieResults from './MovieResults';
 
 export default class MovieManager extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      showResults: false
+      showResults: false,
+      movies     : []
     };
-
-    this.searchHandler = this.searchHandler.bind(this);
+    this.searchHandler = this.searchHandler.bind( this );
   }
 
-  searchHandler(msg) {
-    console.log("MovieManager is handling an onSearch event.");
-    console.log("The message was ", msg);
-    this.setState({ showResults: true });
+  searchHandler( title ) {
+    fetch( 'http://localhost:8001/movies?title_like=' + title )
+      .then( results => results.json() )
+      .then( movies => {
+        console.log( 'Movies: ', movies );
+        this.setState( {
+          showResults: true,
+          movies
+        } );
+      } );
   }
 
   render() {
     let results = "";
-    if (this.state.showResults === true) {
-      results = <MovieResults/>
+    if ( this.state.showResults === true ) {
+      results = <MovieResults movies={this.state.movies}/>
     }
 
     return (
       <section>
-        <h2>This is the Movie Manager</h2>
-        <MovieSearch onSearch={this.searchHandler} />
+        <MovieSearch onSearch={this.searchHandler}/>
         {results}
       </section>
     );
